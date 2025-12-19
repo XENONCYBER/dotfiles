@@ -1,10 +1,12 @@
 # ==========================================
-#  THE "SPLIT PILL" AESTHETIC CONFIG
+#  REFINED "BRACKET" CONFIG
 # ==========================================
 
-# CRITICAL: $os and $directory are on the same line with NO spaces between them
 format = """
-$os$directory\
+[┌─](bold white)\
+$os\
+$shell\
+$directory\
 $git_branch\
 $git_status\
 $package\
@@ -18,150 +20,99 @@ $rust\
 $ruby\
 $aws\
 $docker_context\
-$cmd_duration\
 $jobs\
-$time\
+$cmd_duration\
 $line_break\
-$character"""
+[│](bold white)\
+$line_break\
+[┕](bold white)$character"""
 
 add_newline = true
 
-# --- 1. THE HEAD (OS ICON) ---
-# Silver Background (#D9D9D9) with Black Text (#000000)
+# --- 1. THE OS BOX ---
 [os]
 disabled = false
-style = "bg:#D9D9D9 fg:#000000"
-
-# EXPLANATION OF THE MAGIC:
-# 1. [](fg:#D9D9D9) -> Starts the pill with a Silver cap
-# 2. [$symbol]($style) -> The icon itself
-# 3. [](fg:#D9D9D9 bg:#007ACC) -> The connector. 
-#    It is FOREGROUND Silver (to close the first circle)
-#    It is BACKGROUND Blue (to blend into the next module)
-format = '[](fg:#D9D9D9)[$symbol]($style)[](fg:#D9D9D9 bg:#007ACC)'
+style = "bg:#444444 fg:#FFFFFF"
+format = "[ $symbol ]($style)"
 
 [os.symbols]
-Windows = " "
-Ubuntu = " "
-Debian = " "
-Linux = " "
-Macos = " "
+Windows = "󰖳"
+Ubuntu = ""
+Debian = ""
+Linux = ""
+Macos = ""
 
-# --- 2. THE BODY (DIRECTORY) ---
-# Vibrant Blue Background (#007ACC) with White Text (#FFFFFF)
+# --- 2. THE SHELL BOX (FIXED) ---
+[shell]
+disabled = false
+style = "bg:#EEEEEE fg:#000000"
+# removed invalid '$common_name' variable
+format = "[ $indicator ]($style)"
+
+# We add the text names directly here so they always show up
+powershell_indicator = "󰨊 pwsh"
+zsh_indicator = " zsh"
+bash_indicator = " bash"
+cmd_indicator = " cmd"
+unknown_indicator = " shell"
+
+# --- 3. THE DIRECTORY BOX ---
 [directory]
-style = "bg:#007ACC fg:#FFFFFF bold"
-
-# format starts immediately with text (no opening cap) because the OS module provided the background
-format = '[  $path ]($style)[](fg:#007ACC) '
-
+style = "bg:#FFD666 fg:#000000"
+format = "[  $path ]($style)"
 truncation_length = 3
 truncation_symbol = "…/"
 truncate_to_repo = false
 
 [directory.substitutions]
-# This replaces the backslash with a nice arrow
-"\\" = "  "
-'Documents' = '󰈙'
-'Downloads' = ' '
-'Music' = ' '
-'Pictures' = ' '
+"\\" = "/"
 
-[git_branch]
-style = 'fg:green'
-symbol = ' '
-format = '[on](white) [$symbol$branch ]($style)'
-
-[git_status]
-style = 'fg:red'
-format = '([$all_status$ahead_behind]($style) )'
-
+# --- 4. THE FILLER ---
 [fill]
 symbol = ' '
 
+# --- 5. LANGUAGES ---
 [python]
-style = 'yellow'
-symbol = ' '
-format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
-pyenv_prefix = ''
-
-[lua]
-symbol = ' '
+symbol = " "
+style = "fg:#FFD666"
+format = '[$symbol( $version)]($style)'
 
 [nodejs]
-style = 'blue'
-symbol = ' '
-format = '[${symbol}${version}](bold green) '
+symbol = " "
+style = "fg:#73daca"
+format = '[$symbol( $version)]($style)'
 
 [golang]
-style = 'blue'
-symbol = ' '
-
-[haskell]
-style = 'blue'
-symbol = ' '
+symbol = " "
+style = "fg:#73daca"
+format = '[$symbol( $version)]($style)'
 
 [rust]
-style = 'orange'
-symbol = ' '
+symbol = " "
+style = "fg:#FFD666"
+format = '[$symbol( $version)]($style)'
 
-[ruby]
-style = 'blue'
-symbol = ' '
+# --- 6. GIT CONFIG ---
+[git_branch]
+symbol = " "
+style = "fg:green"
+format = " [on](white) [$symbol$branch]($style)"
 
-[package]
-symbol = '󰏗 '
+[git_status]
+style = "fg:red"
+format = '([\[$all_status$ahead_behind\]]($style))'
 
-[aws]
-symbol = ' '
-style = 'yellow'
-format = '[$symbol($profile )(\[$duration\] )]($style)'
-
-[docker_context]
-symbol = ' '
-style = 'fg:#06969A'
-format = '[$symbol]($style) $path'
-detect_files = ['docker-compose.yml', 'docker-compose.yaml', 'Dockerfile']
-detect_extensions = ['Dockerfile']
-
-[jobs]
-symbol = ' '
-style = 'red'
-number_threshold = 1
-format = '[$symbol]($style)'
-
+# --- 7. UTILITIES ---
 [cmd_duration]
 min_time = 0
-style = 'fg:gray'
-format = '[$duration]($style)'
+style = "fg:#73daca"
+format = " · [$duration]($style)"
 
 [time]
 disabled = true
-style = "bold white"
-format = "[$time]($style)"
 
-[palettes.nord]
-dark_blue = '#5E81AC'
-blue = '#81A1C1'
-teal = '#88C0D0'
-red = '#BF616A'
-orange = '#D08770'
-green = '#A3BE8C'
-yellow = '#EBCB8B'
-purple = '#B48EAD'
-gray = '#434C5E'
-black = '#2E3440'
-white='#D8DEE9'
-
-[palettes.onedark]
-dark_blue='#61afef'
-blue='#56b6c2'
-red='#e06c75'
-green='#98c379'
-purple='#c678dd'
-cyan='#56b6c2'
-orange='#be5046'
-yellow='#e5c07b'
-gray='#828997'
-white ='#abb2bf'
-black='#2c323c'
+# --- 8. PROMPT CHARACTER ---
+[character]
+# I used the single chevron (❯) to match your text snippet "┕❯"
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
