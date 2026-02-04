@@ -7,6 +7,7 @@ export GOPATH="$HOME/go"
 export GOROOT="/usr/local/go"  # update if needed
 export PATH="$PATH:$GOROOT/bin:$GOPATH/bin"
 
+COLORTERM=truecolor
 
 ### Added by Zinit's installer
 if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
@@ -20,6 +21,8 @@ fi
 source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
+
+source $HOME/.zsh/zsh-completions.plugin.zsh
 
 # Load a few important annexes, without Turbo
 # (this is currently required for annexes)
@@ -36,6 +39,7 @@ zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
 zinit light Aloxaf/fzf-tab
+zinit load zdharma-continuum/history-search-multi-word
 
 #snippets
 zinit snippet OMZP::git
@@ -71,6 +75,10 @@ zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
+#history styling
+zstyle ":history-search-multi-word" highlight-color "bg=yellow,fg=black,bold"
+zstyle ":plugin:history-search-multi-word" clear-on-cancel "yes"
+
 #aliases
 alias ls='ls --color'
 
@@ -83,3 +91,16 @@ source /usr/share/doc/fzf/examples/completion.zsh
 
 eval "$(zoxide init --cmd cd zsh)"
 eval "$(starship init zsh)"
+
+# opencode
+export PATH=/home/ishan/.opencode/bin:$PATH
+
+#alias
+alias n='nvim'
+alias v='nvim'
+alias vi='nvim'
+alias bat='batcat'
+alias oc='opencode'
+
+export EDITOR="nvim"
+export VISUAL="nvim"
