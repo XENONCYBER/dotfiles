@@ -1,0 +1,119 @@
+# ==========================================
+#  REFINED "BRACKET" CONFIG
+# ==========================================
+
+format = """
+[┌─](bold white)\
+$os\
+$shell\
+$directory\
+$git_branch\
+$git_status\
+$package\
+$fill\
+$python\
+$lua\
+$nodejs\
+$golang\
+$haskell\
+$rust\
+$ruby\
+$aws\
+$docker_context\
+$jobs\
+$cmd_duration\
+$line_break\
+[│](bold white)\
+$line_break\
+[┕](bold white)$character"""
+
+add_newline = true
+
+# --- 1. THE OS BOX ---
+[os]
+disabled = false
+style = "bg:#444444 fg:#FFFFFF"
+format = "[ $symbol ]($style)"
+
+[os.symbols]
+Windows = "󰖳"
+Ubuntu = ""
+Debian = ""
+Linux = ""
+Macos = ""
+
+# --- 2. THE SHELL BOX (FIXED) ---
+[shell]
+disabled = false
+style = "bg:#EEEEEE fg:#000000"
+# removed invalid '$common_name' variable
+format = "[ $indicator ]($style)"
+
+# We add the text names directly here so they always show up
+powershell_indicator = "󰨊 pwsh"
+zsh_indicator = " zsh"
+bash_indicator = " bash"
+cmd_indicator = " cmd"
+unknown_indicator = " shell"
+
+# --- 3. THE DIRECTORY BOX ---
+[directory]
+style = "bg:#FFD666 fg:#000000"
+format = "[  $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+truncate_to_repo = false
+
+[directory.substitutions]
+"\\" = "/"
+
+# --- 4. THE FILLER ---
+[fill]
+symbol = ' '
+
+# --- 5. LANGUAGES ---
+[python]
+symbol = " "
+style = "fg:#FFD666"
+format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+pyenv_prefix = ''
+
+[nodejs]
+symbol = " "
+style = "fg:#73daca"
+format = '[$symbol( $version)]($style)'
+
+[golang]
+symbol = " "
+style = "fg:#73daca"
+format = '[$symbol( $version)]($style)'
+
+[rust]
+symbol = " "
+style = "fg:#FFD666"
+format = '[$symbol( $version)]($style)'
+
+# --- 6. GIT CONFIG ---
+[git_branch]
+symbol = " "
+style = "fg:green"
+format = " [on](white) [$symbol$branch]($style)"
+
+[git_status]
+style = "fg:red"
+format = '([\[$all_status$ahead_behind\]]($style))'
+
+# --- 7. UTILITIES ---
+[cmd_duration]
+min_time = 0
+style = "fg:#73daca"
+format = " · [$duration]($style)"
+
+[time]
+disabled = true
+
+# --- 8. PROMPT CHARACTER ---
+[character]
+# I used the single chevron (❯) to match your text snippet "┕❯"
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
